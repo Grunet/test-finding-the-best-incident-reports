@@ -44,7 +44,17 @@ const records = [];
         console.log(json.offset);
         console.log(rowBase * numIterations);
 
-        records.push(...json.records);
+        const trimmedRecords = json.records.filter(({ fields: { ["URL for Softr"]:url, Title:title } }) => {
+            return !!title && !!url;
+        }).map(({ id, fields: { ["URL for Softr"]:url, Title:title } }) => {
+            return {
+                id,
+                title,
+                url
+            }
+        })
+
+        records.push(...trimmedRecords);
 
         if (offset === "null") {
             break;
